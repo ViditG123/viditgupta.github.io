@@ -1,1475 +1,1129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vidit Gupta - Software Engineer</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidit Gupta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-        :root {
-            --bg-color: #0a0a0a;
-            --text-primary: #e5e5e5;
-            --text-secondary: #888;
-            --accent: #00ff88;
-            --accent-hover: #00cc6a;
-            --card-bg: #111;
-        }
-
-        [data-theme="light"] {
-            --bg-color: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #666;
-            --accent: #00b359;
-            --accent-hover: #009947;
-            --card-bg: #f5f5f5;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-            max-width: 100%;
-            overflow-x: hidden;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.03;
-            transition: opacity 0.3s ease;
-        }
-
-        [data-theme="light"] .bg-animation {
-            opacity: 0.02;
-        }
-
-        .bg-grid {
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            width: 100%;
-            height: 100%;
-            animation: gridMove 20s linear infinite;
-        }
-        .now-section {
-    padding: 6rem 0;
-    background: var(--bg-secondary);
+:root {
+  --ink: #1a1714;
+  --paper: #f2ede4;
+  --cream: #ede7db;
+  --warm: #d9d0c1;
+  --rust: #b5451b;
+  --rust-light: #e8c4b4;
+  --muted: #7a7168;
+  --border: #c8c0b0;
+  --serif: 'Playfair Display', Georgia, serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
 }
 
-.now-content {
-    max-width: 700px;
-    margin: auto;
-    color: var(--text-secondary);
+[data-dark] {
+  --ink: #f0ebe2;
+  --paper: #141210;
+  --cream: #1e1c18;
+  --warm: #2a2720;
+  --rust: #d4673a;
+  --rust-light: #3d2418;
+  --muted: #8a8070;
+  --border: #2e2b24;
 }
 
-.now-content ul {
-    margin-top: 1rem;
-    padding-left: 1.2rem;
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  transition: background .3s, color .3s;
+  overflow-x: hidden;
 }
 
-.now-content li {
-    margin-bottom: 0.6rem;
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem;
+  height: 56px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+  transition: background .3s;
 }
 
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
-            transition: all 0.3s;
-        }
-
-        nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--text-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            font-size: 1.2rem;
-        }
-
-        [data-theme="light"] .theme-toggle {
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .theme-toggle:hover {
-            border-color: var(--accent);
-            transform: rotate(180deg);
-        }
-
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            position: relative;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s;
-        }
-
-        .logo:hover::after {
-            width: 100%;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-            position: relative;
-        }
-
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .nav-links a:hover::before {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-top: 80px;
-            position: relative;
-        }
-
-        .hero-content {
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-        }
-
-        .hero-label {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            border-radius: 20px;
-            color: var(--accent);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            letter-spacing: -2px;
-            background: linear-gradient(135deg, #e5e5e5 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero .subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-
-        .hero p {
-            max-width: 600px;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            background: var(--accent);
-            color: var(--bg-color);
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
-            background: var(--accent-hover);
-        }
-
-        .btn:hover {
-    transform: translateY(-2px);
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  text-decoration: none;
 }
 
-.btn:active {
-    transform: translateY(0);
+.nav-logo sup {
+  font-family: var(--mono);
+  font-size: .55rem;
+  color: var(--rust);
+  vertical-align: super;
+  letter-spacing: .05em;
 }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-        }
-
-        .btn-secondary:hover {
-            background: var(--accent);
-            color: var(--bg-color);
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent);
-            display: block;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Experience Section */
-        .experience {
-            padding: 8rem 0;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            font-weight: 600;
-            letter-spacing: -1px;
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background: linear-gradient(180deg, var(--accent) 0%, transparent 100%);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-            padding-left: 2rem;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2.5rem;
-            top: 0;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--accent);
-            border: 3px solid var(--bg-color);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
-        }
-
-        .timeline-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .timeline-header h3 {
-            font-size: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .timeline-company {
-            color: var(--accent);
-            font-weight: 500;
-            font-size: 1.1rem;
-        }
-
-        .timeline-date {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            padding: 0.3rem 0.8rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-        }
-
-        .timeline-description {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            font-style: italic;
-        }
-
-        .timeline-item ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .timeline-item li {
-            color: var(--text-secondary);
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .timeline-item li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 8rem 0;
-            background: var(--bg-color);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .project-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 255, 136, 0.1);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s;
-        }
-
-        .project-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
-        }
-
-        .project-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .project-card p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .project-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        .tag {
-            padding: 0.3rem 0.8rem;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            color: var(--accent);
-        }
-
-        .project-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: gap 0.3s;
-            font-weight: 500;
-        }
-
-        .project-link:hover {
-            gap: 1rem;
-        }
-
-        /* Blog Section */
-        .blog {
-            padding: 8rem 0;
-            background: var(--bg-color);
-        }
-
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .blog-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 255, 136, 0.1);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .blog-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s;
-        }
-
-        .blog-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .blog-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
-        }
-
-        .blog-meta {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .blog-date {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        .blog-read-time {
-            color: var(--accent);
-            font-size: 0.85rem;
-            padding: 0.2rem 0.6rem;
-            background: rgba(0, 255, 136, 0.1);
-            border-radius: 4px;
-        }
-
-        .blog-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            line-height: 1.3;
-        }
-
-        .blog-excerpt {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-            flex-grow: 1;
-        }
-
-        .blog-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        .blog-tag {
-            padding: 0.3rem 0.8rem;
-            background: rgba(0, 255, 136, 0.05);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 4px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .read-more {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: gap 0.3s;
-            font-weight: 500;
-            align-self: flex-start;
-        }
-
-        .read-more:hover {
-            gap: 1rem;
-        }
-
-        /* Skills Section */
-        .skills-section {
-            padding: 8rem 0;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .skill-category {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 255, 136, 0.1);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .skill-category:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .skill-category h3 {
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-        }
-
-        .skill-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-
-        .skill-tag {
-            padding: 0.5rem 1rem;
-            background: rgba(0, 255, 136, 0.05);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            transition: all 0.3s;
-        }
-
-        .skill-tag:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 8rem 0;
-        }
-
-        .contact-content {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-        }
-
-        .contact-link:hover {
-            color: var(--accent);
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        /* Footer */
-        footer {
-            padding: 2rem 0;
-            text-align: center;
-            color: var(--text-secondary);
-            border-top: 1px solid rgba(0, 255, 136, 0.1);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .timeline {
-                padding-left: 1rem;
-            }
-
-            .timeline-item {
-                padding-left: 1.5rem;
-            }
-
-            .projects-grid, .blog-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-links {
-                gap: 0.8rem;
-                font-size: 0.85rem;
-            }
-
-            .nav-right {
-                gap: 1rem;
-            }
-
-            .theme-toggle {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-stats {
-                gap: 2rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .now-layout {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 3rem;
-    align-items: center;
-    max-width: 900px;
-    margin: auto;
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  list-style: none;
 }
 
-.now-photo img {
-    width: 100%;
-    border-radius: 16px;
-    object-fit: cover;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+.nav-links a {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .2s;
 }
 
-@media (max-width: 768px) {
-    .now-layout {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
+.nav-links a:hover { color: var(--ink); }
 
-    .now-photo {
-        max-width: 200px;
-        margin: 0 auto;
-    }
-}
-        @media (max-width: 768px) {
-    .hero {
-        text-align: center;
-    }
+.nav-right { display: flex; align-items: center; gap: 1.25rem; }
 
-    .hero p {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .cta-buttons {
-        justify-content: center;
-    }
-}
-@media (max-width: 768px) {
-    .hero-stats {
-        justify-content: center;
-        text-align: center;
-    }
-
-    .stat {
-        min-width: 120px;
-    }
+.status-pill {
+  display: flex; align-items: center; gap: .5rem;
+  background: var(--rust-light);
+  padding: .3rem .8rem;
+  border-radius: 2px;
 }
 
-
-        .project-desc {
-    font-weight: 500;
-    margin-bottom: 0.6rem;
+.status-pill span {
+  font-family: var(--mono);
+  font-size: .65rem;
+  letter-spacing: .06em;
+  color: var(--rust);
 }
 
-.project-why {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.6rem;
+.dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--rust);
+  animation: blink 2s ease-in-out infinite;
 }
 
-.project-learned {
-    font-size: 0.9rem;
-    font-style: italic;
-    color: var(--text-secondary);
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.toggle-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 32px; height: 32px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: .85rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.toggle-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding-top: 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--border);
 }
 
-        .blog-full {
-    display: none;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
+.hero-left {
+  padding: 7rem 3rem 5rem;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.blog-full p {
-    margin-bottom: 1rem;
-}
-.project-card,
-.blog-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.project-card:hover,
-.blog-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-        @media (max-width: 768px) {
-    .container {
-        padding: 0 1.25rem;
-    }
-}
-@media (max-width: 768px) {
-    nav .container {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        text-align: center;
-    }
-}
- @media (max-width: 768px) {
-    .projects-grid,
-    .blog-grid,
-    .skills-grid {
-        grid-template-columns: 1fr;
-    }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex; align-items: center; gap: .75rem;
+  margin-bottom: 2.5rem;
 }
 
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 1px;
+  background: var(--rust);
+}
+
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -.03em;
+  color: var(--ink);
+  margin-bottom: 2.5rem;
+}
+
+.hero-name em {
+  font-weight: 400;
+  font-style: italic;
+  color: var(--rust);
+  display: block;
+}
+
+.hero-desc {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 440px;
+  margin-bottom: 3rem;
+}
+
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.btn-ink {
+  font-family: var(--mono);
+  font-size: .75rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--ink);
+  padding: .8rem 1.75rem;
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  transition: all .2s;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.btn-ink:hover { background: var(--rust); border-color: var(--rust); }
+
+.btn-outline {
+  font-family: var(--mono);
+  font-size: .75rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  padding: .8rem 1.75rem;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  transition: all .2s;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.btn-outline:hover { border-color: var(--ink); }
+
+.hero-right { display: grid; grid-template-rows: 1fr auto; }
+
+.hero-photo-area {
+  position: relative; overflow: hidden;
+  background: var(--cream);
+  min-height: 400px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-photo-area img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  filter: grayscale(15%) contrast(1.05);
+  display: block;
+}
+
+.hero-photo-label {
+  position: absolute; bottom: 1rem; right: 1rem;
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--paper);
+  padding: .3rem .6rem;
+  border: 1px solid var(--border);
+}
+
+.hero-stats-block {
+  padding: 2.5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.hero-stat { padding-right: 1.5rem; border-right: 1px solid var(--border); }
+.hero-stat:first-child { padding-left: 0; }
+.hero-stat:last-child { border-right: none; padding-right: 0; padding-left: 1.5rem; }
+.hero-stat:nth-child(2) { padding-left: 1.5rem; }
+
+.hero-stat-n {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  display: block;
+}
+
+.hero-stat-l {
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: .35rem;
+  display: block;
+}
+
+/* ── SECTION HELPERS ── */
+.s-label {
+  font-family: var(--mono);
+  font-size: .65rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 1rem;
+}
+
+.s-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  margin-bottom: 3.5rem;
+}
+
+.s-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* ── EXPERIENCE ── */
+.exp-section {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  border-top: 1px solid var(--border);
+}
+
+.exp-sidebar {
+  padding: 6rem 2.5rem 6rem 3rem;
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 56px;
+  align-self: start;
+}
+
+.exp-sidebar .s-title { font-size: 2rem; margin-bottom: 0; }
+
+.exp-main { padding: 6rem 3rem; }
+
+.exp-item {
+  padding-bottom: 4rem; margin-bottom: 4rem;
+  border-bottom: 1px solid var(--border);
+  opacity: 0; transform: translateY(16px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.exp-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.exp-item.vis { opacity: 1; transform: translateY(0); }
+
+.exp-co {
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: .5rem;
+}
+
+.exp-role {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: .35rem;
+  line-height: 1.1;
+}
+
+.exp-date {
+  font-family: var(--mono);
+  font-size: .7rem;
+  color: var(--muted);
+  margin-bottom: .75rem;
+  letter-spacing: .05em;
+}
+
+.exp-sub {
+  font-style: italic;
+  color: var(--muted);
+  font-size: .9rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--serif);
+}
+
+.exp-list { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+
+.exp-list li {
+  font-size: .9rem; font-weight: 300;
+  color: var(--muted);
+  padding-left: 1.25rem; position: relative;
+  line-height: 1.65;
+}
+
+.exp-list li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
+
+/* ── PROJECTS ── */
+.projects-section {
+  background: var(--cream);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.projects-section .section-inner { padding: 6rem 3rem 0; }
+
+.proj-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 4rem; flex-wrap: wrap; gap: 1.5rem;
+}
+
+.proj-header .s-title { margin-bottom: 0; }
+
+.proj-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+.proj-card {
+  padding: 2.5rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--cream);
+  position: relative; overflow: hidden;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .5s ease, transform .5s ease, background .2s;
+}
+
+.proj-card.vis { opacity: 1; transform: translateY(0); }
+.proj-card:hover { background: var(--paper); }
+
+.proj-num {
+  font-family: var(--serif);
+  font-size: 5rem; font-weight: 900;
+  color: var(--warm);
+  line-height: 1;
+  position: absolute; top: 1.5rem; right: 2rem;
+  letter-spacing: -.04em;
+  transition: color .2s;
+}
+
+.proj-card:hover .proj-num { color: var(--rust-light); }
+
+.proj-name {
+  font-family: var(--serif);
+  font-size: 1.65rem; font-weight: 700;
+  color: var(--ink); margin-bottom: .6rem; line-height: 1.1;
+  position: relative;
+}
+
+.proj-desc {
+  font-size: .88rem; font-weight: 300;
+  color: var(--muted); line-height: 1.65;
+  margin-bottom: .5rem; position: relative;
+}
+
+.proj-why {
+  font-family: var(--serif);
+  font-style: italic; font-size: .85rem;
+  color: var(--muted); margin-bottom: 1.5rem; opacity: .75;
+}
+
+.proj-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.5rem; }
+
+.proj-tag {
+  font-family: var(--mono); font-size: .62rem;
+  letter-spacing: .06em; color: var(--muted);
+  padding: .2rem .55rem;
+  border: 1px solid var(--border); border-radius: 2px;
+}
+
+.proj-link {
+  font-family: var(--mono); font-size: .7rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--rust); text-decoration: none;
+  display: inline-flex; align-items: center; gap: .4rem;
+  transition: gap .2s;
+}
+
+.proj-link:hover { gap: .75rem; }
+
+/* ── NOW ── */
+.now-section {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border);
+}
+
+.now-text-col {
+  padding: 6rem 3rem;
+  border-right: 1px solid var(--border);
+}
+
+.now-img-col {
+  padding: 6rem 3rem;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--cream);
+}
+
+.now-img-frame {
+  width: 260px;
+  border: 1px solid var(--border);
+  padding: .75rem;
+  background: var(--paper);
+}
+
+.now-img-frame img {
+  width: 100%; aspect-ratio: 3/4;
+  object-fit: cover; filter: grayscale(20%); display: block;
+}
+
+.now-img-caption {
+  font-family: var(--mono); font-size: .6rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); text-align: center; padding-top: .6rem;
+}
+
+.now-list { list-style: none; display: flex; flex-direction: column; gap: 1.25rem; }
+
+.now-list li {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 1rem; align-items: start;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.now-list li.vis { opacity: 1; transform: translateY(0); }
+
+.now-n {
+  font-family: var(--serif);
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--rust); line-height: 1.4;
+}
+
+.now-t {
+  font-size: .9rem; font-weight: 300;
+  color: var(--muted); line-height: 1.6; padding-top: .1rem;
+}
+
+/* ── BLOG ── */
+.blog-section { border-top: 1px solid var(--border); }
+
+.blog-header { padding: 5rem 3rem 0; }
+
+.blog-intro {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.1rem; color: var(--muted);
+  max-width: 540px; line-height: 1.65;
+  margin-top: -.5rem; margin-bottom: 3.5rem;
+}
+
+.blog-list { border-top: 1px solid var(--border); }
+
+.blog-row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: start; gap: 2rem;
+  padding: 2.25rem 3rem;
+  border-bottom: 1px solid var(--border);
+  transition: background .2s;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .5s ease, transform .5s ease, background .2s;
+}
+
+.blog-row.vis { opacity: 1; transform: translateY(0); }
+.blog-row:hover { background: var(--cream); }
+
+.blog-idx {
+  font-family: var(--serif);
+  font-size: 2.5rem; font-weight: 900;
+  color: var(--warm); line-height: 1; padding-top: .2rem;
+}
+
+.blog-title {
+  font-family: var(--serif);
+  font-size: 1.3rem; font-weight: 700;
+  color: var(--ink); margin-bottom: .4rem; line-height: 1.2;
+}
+
+.blog-excerpt {
+  font-size: .88rem; font-weight: 300;
+  color: var(--muted); line-height: 1.65; margin-bottom: .75rem;
+}
+
+.blog-full-text {
+  display: none;
+  font-size: .88rem; font-weight: 300;
+  color: var(--muted); line-height: 1.75; margin-bottom: .75rem;
+}
+
+.blog-full-text p + p { margin-top: .65rem; }
+
+.read-toggle {
+  background: none; border: none;
+  font-family: var(--mono); font-size: .65rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--rust); cursor: pointer; padding: 0;
+  display: inline-flex; align-items: center; gap: .3rem;
+  transition: opacity .2s;
+}
+
+.read-toggle:hover { opacity: .7; }
+
+.blog-time {
+  font-family: var(--mono); font-size: .65rem;
+  color: var(--muted); letter-spacing: .05em;
+  white-space: nowrap; padding-top: .4rem;
+}
+
+/* ── SKILLS ── */
+.skills-section {
+  background: var(--cream);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.skills-section .section-inner { padding: 6rem 3rem; }
+
+.skills-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  margin-top: 2.5rem;
+}
+
+.skill-col {
+  padding: 2rem 2.5rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.skill-col.vis { opacity: 1; transform: translateY(0); }
+
+.skill-col h3 {
+  font-family: var(--mono); font-size: .65rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 1.25rem;
+}
+
+.skill-pills { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+.skill-pill {
+  font-family: var(--sans); font-size: .8rem; font-weight: 300;
+  color: var(--ink); padding: .3rem .75rem;
+  background: var(--paper);
+  border: 1px solid var(--border); border-radius: 2px;
+  transition: all .15s;
+}
+
+.skill-pill:hover { border-color: var(--rust); color: var(--rust); }
+
+/* ── RESUME ── */
+.resume-section {
+  border-top: 1px solid var(--border);
+  padding: 5rem 3rem;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+}
+
+.resume-left h2 {
+  font-family: var(--serif);
+  font-size: 2.25rem; font-weight: 700;
+  color: var(--ink); margin-bottom: .35rem; letter-spacing: -.02em;
+}
+
+.resume-left p { font-size: .88rem; font-weight: 300; color: var(--muted); }
+
+/* ── CONTACT ── */
+.contact-section {
+  border-top: 1px solid var(--border);
+  background: var(--ink);
+  padding: 8rem 3rem; text-align: center;
+  transition: background .3s;
+}
+
+[data-dark] .contact-section { background: var(--cream); }
+
+.contact-eyebrow {
+  font-family: var(--mono); font-size: .65rem;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 1.5rem;
+}
+
+.contact-heading {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 900; line-height: .95;
+  letter-spacing: -.03em;
+  color: var(--paper); margin-bottom: 1.5rem;
+}
+
+[data-dark] .contact-heading { color: var(--ink); }
+.contact-heading em { font-style: italic; font-weight: 400; color: var(--rust); }
+
+.contact-sub {
+  font-size: .95rem; font-weight: 300; color: #888;
+  max-width: 420px; margin: 0 auto 3rem; line-height: 1.7;
+}
+
+[data-dark] .contact-sub { color: var(--muted); }
+
+.contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+.c-link {
+  font-family: var(--mono); font-size: .72rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: #888; text-decoration: none;
+  padding: .65rem 1.5rem;
+  border: 1px solid #333; border-radius: 2px;
+  transition: all .2s;
+}
+
+[data-dark] .c-link { color: var(--muted); border-color: var(--border); }
+
+.c-link:hover { color: var(--paper); border-color: var(--rust); background: var(--rust); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.75rem 3rem;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: .75rem;
+  background: var(--paper);
+}
+
+footer p {
+  font-family: var(--mono); font-size: .65rem;
+  letter-spacing: .06em; color: var(--muted);
+}
+
+/* ── SCROLL ANIM ── */
+.fade-up {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+.fade-up.vis { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+
+  .hero { grid-template-columns: 1fr; }
+  .hero-left { padding: 5rem 1.5rem 3rem; border-right: none; }
+  .hero-right { border-top: 1px solid var(--border); }
+  .hero-photo-area { min-height: 300px; }
+  .hero-stats-block { padding: 2rem 1.5rem; }
+
+  .exp-section { grid-template-columns: 1fr; }
+  .exp-sidebar { position: static; padding: 4rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--border); }
+  .exp-main { padding: 3rem 1.5rem; }
+
+  .projects-section .section-inner { padding: 4rem 1.5rem 0; }
+  .proj-grid { grid-template-columns: 1fr; }
+
+  .now-section { grid-template-columns: 1fr; }
+  .now-text-col { padding: 4rem 1.5rem; border-right: none; border-bottom: 1px solid var(--border); }
+  .now-img-col { padding: 3rem 1.5rem; }
+
+  .blog-header { padding: 4rem 1.5rem 0; }
+  .blog-row { padding: 1.75rem 1.5rem; grid-template-columns: 40px 1fr; }
+  .blog-idx { font-size: 1.75rem; }
+  .blog-time { display: none; }
+
+  .skills-section .section-inner { padding: 4rem 1.5rem; }
+  .skills-grid { grid-template-columns: 1fr; }
+
+  .resume-section { padding: 3.5rem 1.5rem; }
+  .contact-section { padding: 5rem 1.5rem; }
+  footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+}
+
+.proj-card:nth-child(1){transition-delay:.05s}
+.proj-card:nth-child(2){transition-delay:.1s}
+.proj-card:nth-child(3){transition-delay:.15s}
+.proj-card:nth-child(4){transition-delay:.2s}
+.skill-col:nth-child(1){transition-delay:.05s}
+.skill-col:nth-child(2){transition-delay:.1s}
+.skill-col:nth-child(3){transition-delay:.15s}
+.blog-row:nth-child(1){transition-delay:0s}
+.blog-row:nth-child(2){transition-delay:.05s}
+.blog-row:nth-child(3){transition-delay:.1s}
+.blog-row:nth-child(4){transition-delay:.15s}
+.blog-row:nth-child(5){transition-delay:.2s}
+.now-list li:nth-child(1){transition-delay:.05s}
+.now-list li:nth-child(2){transition-delay:.15s}
+.now-list li:nth-child(3){transition-delay:.25s}
 </style>
 </head>
 <body>
-    <div class="bg-animation">
-        <div class="bg-grid"></div>
+
+<nav class="nav">
+  <a href="#" class="nav-logo">Vidit Gupta<sup>©2026</sup></a>
+  <ul class="nav-links">
+    <li><a href="#experience">Work</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#blog">Writing</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="status-pill">
+      <div class="dot"></div>
+      <span>Available S'26</span>
     </div>
+    <button class="toggle-btn" id="themeBtn">◐</button>
+  </div>
+</nav>
 
-    <nav>
-        <div class="container">
-            <div class="logo">Vidit Gupta</div>
-            <div class="nav-right">
-                <ul class="nav-links">
-                    <li><a href="#experience">Experience</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#resume">Resume</a></li>
-                    <li><a href="#blog">Blog</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <span class="theme-icon">☀</span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-label">Available for Internships</div>
-                <h1>Building Software That Ships</h1>
-                <div class="subtitle">Finding scalable solutions at the intersection of finance and technology</div>
-                <p>Computer Science student at University of Waterloo with experience in full-stack development, blockchain systems, and financial data engineering. Passionate about creating efficient, user-centric applications.</p>
-                <div class="cta-buttons">
-                    <a href="#projects" class="btn">View My Work</a>
-                    <a href="mailto:v92gupta@uwaterloo.ca" class="btn btn-secondary">Get in Touch</a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">2+</span>
-                        <span class="stat-label">Internships</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">10+</span>
-                        <span class="stat-label">Projects Built</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">5+</span>
-                        <span class="stat-label">Hackathons</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience" class="experience">
-        <div class="container">
-            <h2 class="section-title fade-in">Work Experience</h2>
-            <div class="timeline">
-                <div class="timeline-item fade-in">
-                    <div class="timeline-header">
-                        <div>
-                            <div class="timeline-company">Reckitt Benckiser (Canada) Inc</div>
-                            <h3>IT Finance Intern</h3>
-                        </div>
-                        <span class="timeline-date">May 2025 – Aug 2025</span>
-                    </div>
-                    <p class="timeline-description">Global Fortune 500 company behind brands like Lysol, Dettol, Finish and Durex</p>
-                    <ul>
-                        <li>Worked as an integrated member of Finance, FP&A and IT teams, bridging data engineering with business needs</li>
-                        <li>Created data validation workflows with Python, SQL, Excel macros, and Power Query to improve report accuracy</li>
-                        <li>Collaborated with Finance and IT stakeholders on Integrated Business Planning (IBP) alignment</li>
-                        <li>Utilized enterprise systems such as SAP, Hyperion, and Power BI for data transformation and visualization</li>
-                    </ul>
-                </div>
-
-                <div class="timeline-item fade-in">
-                    <div class="timeline-header">
-                        <div>
-                            <div class="timeline-company">Token Z Labs</div>
-                            <h3>Software Engineer Intern</h3>
-                        </div>
-                        <span class="timeline-date">Dec 2024 – Apr 2025</span>
-                    </div>
-                    <p class="timeline-description">Blockchain R&D startup building privacy-preserving digital assets and cross-chain systems</p>
-                    <ul>
-                        <li>Worked as part of the engineering team on an MPC blockchain wallet and smart contracts, ensuring secure key handling and transaction privacy</li>
-                        <li>Led project management and coordination across teams, ensuring timely delivery and technical alignment</li>
-                        <li>Prototyped and tested new blockchain–AI features with iterative user feedback to enhance usability and reliability</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title fade-in">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card fade-in">
-    <h3>OpenWave</h3>
-    
-  <p class="project-desc">
-        A full-stack music discovery platform designed for legal and free exploration of music.
-        
-    </p>
-
-    <p class="project-why">
-        I built this to solve the ads on music problem for me and my friends.
-    </p>
-
-    <p class="project-learned">
-       Focus: Making it easy to discover, search, and organize music for free without violating copyright.
-    </p>
-    <div class="project-tags">
-        <span class="tag">React</span>
-        <span class="tag">Node.js</span>
-        <span class="tag">Express</span>
-        <span class="tag">MongoDB</span>
-        <span class="tag">Jamendo API</span>
-        <span class="tag">YouTube Data API</span>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">Computer Science · University of Waterloo</div>
+    <h1 class="hero-name">Vidit<br><em>Gupta.</em></h1>
+    <p class="hero-desc">I build software that ships — full-stack systems, financial data pipelines, blockchain infrastructure. Looking for Summer 2026 internships where hard problems meet good people.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-ink">View work</a>
+      <a href="mailto:v92gupta@uwaterloo.ca" class="btn-outline">Say hello →</a>
     </div>
-    <a href="#" class="project-link">View Project →</a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-area">
+      <img src="DSC_0958.JPG" alt="Vidit Gupta">
+      <div class="hero-photo-label">Waterloo, Ontario</div>
+    </div>
+    <div class="hero-stats-block">
+      <div class="hero-stat">
+        <span class="hero-stat-n">2+</span>
+        <span class="hero-stat-l">Internships</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-n">10+</span>
+        <span class="hero-stat-l">Projects</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-n">5+</span>
+        <span class="hero-stat-l">Hackathons</span>
+      </div>
+    </div>
+  </div>
 </div>
 
-               <div class="project-card fade-in">
-    <h3>Insightify</h3>
-
-    <p class="project-desc">
-        An interactive dashboard that helps make sense of financial trends through clear, visual forecasting.
-    </p>
-
-    <p class="project-why">
-        I built this because I wanted to understand how financial models behave in real-world conditions, not just clean datasets.
-    </p>
-
-    <p class="project-learned">
-       Focus: making complex financial data easy to explore and understand.
-    </p>
-
-    <div class="project-tags">
-        <span class="tag">Python</span>
-        <span class="tag">SQL</span>
-        <span class="tag">scikit-learn</span>
-        <span class="tag">Streamlit</span>
-        <span class="tag">Plotly</span>
+<!-- EXPERIENCE -->
+<div class="exp-section" id="experience">
+  <div class="exp-sidebar">
+    <div class="s-label">02 — Experience</div>
+    <h2 class="s-title">Where I've<br><em>worked.</em></h2>
+  </div>
+  <div class="exp-main">
+    <div class="exp-item">
+      <div class="exp-co">Reckitt Benckiser (Canada) Inc.</div>
+      <div class="exp-role">IT Finance Intern</div>
+      <div class="exp-date">May – Aug 2025</div>
+      <p class="exp-sub">Fortune 500 behind Lysol, Dettol, Finish, and Durex.</p>
+      <ul class="exp-list">
+        <li>Bridged data engineering with business needs across Finance, FP&A, and IT teams</li>
+        <li>Built data validation workflows with Python, SQL, Excel macros, and Power Query</li>
+        <li>Collaborated on Integrated Business Planning alignment across Finance and IT stakeholders</li>
+        <li>Worked hands-on with SAP, Hyperion, and Power BI for data transformation and visualization</li>
+      </ul>
     </div>
-
-    <a href="#" class="project-link">View Project →</a>
+    <div class="exp-item">
+      <div class="exp-co">Token Z Labs</div>
+      <div class="exp-role">Software Engineer Intern</div>
+      <div class="exp-date">Dec 2024 – Apr 2025</div>
+      <p class="exp-sub">Blockchain R&D startup building privacy-preserving digital assets.</p>
+      <ul class="exp-list">
+        <li>Built MPC blockchain wallet components and smart contracts with focus on secure key handling</li>
+        <li>Led cross-team project management to ensure timely delivery and technical alignment</li>
+        <li>Prototyped blockchain–AI features with iterative user feedback loops</li>
+      </ul>
+    </div>
+  </div>
 </div>
 
-
-                <div class="project-card fade-in">
-    <h3>TaskFlow</h3>
-
-    <p class="project-desc">
-        A full-stack task management app designed to stay fast, secure, and distraction-free.
-    </p>
-
-    <p class="project-why">
-        I built this after feeling overwhelmed by productivity tools that added complexity instead of reducing it.
-    </p>
-
-    <p class="project-learned">
-        Focus: building systems that stay reliable and simple as they grow.
-    </p>
-
-    <div class="project-tags">
-        <span class="tag">React</span>
-        <span class="tag">Node.js</span>
-        <span class="tag">Express</span>
-        <span class="tag">MongoDB</span>
-        <span class="tag">JWT</span>
+<!-- PROJECTS -->
+<div class="projects-section" id="projects">
+  <div class="section-inner">
+    <div class="proj-header">
+      <div>
+        <div class="s-label fade-up">03 — Projects</div>
+        <h2 class="s-title fade-up">Things I've<br><em>built.</em></h2>
+      </div>
     </div>
-
-    <a href="#" class="project-link">View Project →</a>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-num">01</div>
+        <div class="proj-name">OpenWave</div>
+        <p class="proj-desc">Full-stack music discovery for free, legal exploration — no ads.</p>
+        <p class="proj-why">"Built to solve the ads problem for me and my friends."</p>
+        <div class="proj-tags">
+          <span class="proj-tag">React</span><span class="proj-tag">Node.js</span><span class="proj-tag">Express</span><span class="proj-tag">MongoDB</span><span class="proj-tag">Jamendo API</span>
+        </div>
+        <a href="#" class="proj-link">View project →</a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-num">02</div>
+        <div class="proj-name">Insightify</div>
+        <p class="proj-desc">Interactive financial trend dashboard with visual forecasting.</p>
+        <p class="proj-why">"Built to understand models in real-world, messy conditions."</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span><span class="proj-tag">SQL</span><span class="proj-tag">scikit-learn</span><span class="proj-tag">Streamlit</span><span class="proj-tag">Plotly</span>
+        </div>
+        <a href="#" class="proj-link">View project →</a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-num">03</div>
+        <div class="proj-name">TaskFlow</div>
+        <p class="proj-desc">Task management app built to stay fast, secure, distraction-free.</p>
+        <p class="proj-why">"Built after productivity tools made me less productive."</p>
+        <div class="proj-tags">
+          <span class="proj-tag">React</span><span class="proj-tag">Node.js</span><span class="proj-tag">MongoDB</span><span class="proj-tag">JWT</span>
+        </div>
+        <a href="#" class="proj-link">View project →</a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-num">04</div>
+        <div class="proj-name">AutoPost</div>
+        <p class="proj-desc">Social media scheduler with reliable background job processing.</p>
+        <p class="proj-why">"Built to learn async systems when reliability actually matters."</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span><span class="proj-tag">FastAPI</span><span class="proj-tag">React</span><span class="proj-tag">APScheduler</span>
+        </div>
+        <a href="#" class="proj-link">View project →</a>
+      </div>
+    </div>
+  </div>
 </div>
 
-
-               <div class="project-card fade-in">
-    <h3>AutoPost</h3>
-
-    <p class="project-desc">
-        An automated social media scheduling tool that handles posting, timing, and performance tracking.
-    </p>
-
-    <p class="project-why">
-        I built this to explore how background jobs and async systems work when reliability actually matters.
-    </p>
-
-    <p class="project-learned">
-        Focus: designing background automation that remains predictable and resilient.
-    </p>
-
-    <div class="project-tags">
-        <span class="tag">Python</span>
-        <span class="tag">FastAPI</span>
-        <span class="tag">React</span>
-        <span class="tag">SQLite</span>
-        <span class="tag">APScheduler</span>
+<!-- NOW -->
+<div class="now-section" id="now">
+  <div class="now-text-col">
+    <div class="s-label fade-up">04 — Now</div>
+    <h2 class="s-title fade-up">Right now,<br><em>I'm…</em></h2>
+    <ul class="now-list">
+      <li>
+        <span class="now-n">01</span>
+        <span class="now-t">Building with intention — shipping real things instead of chasing perfect architecture.</span>
+      </li>
+      <li>
+        <span class="now-n">02</span>
+        <span class="now-t">Learning how real systems fail at scale so I can design them to recover gracefully.</span>
+      </li>
+      <li>
+        <span class="now-n">03</span>
+        <span class="now-t">Shipping consistently instead of waiting for everything to feel ready first.</span>
+      </li>
+    </ul>
+  </div>
+  <div class="now-img-col">
+    <div class="now-img-frame fade-up">
+      <img src="DSC_0958.JPG" alt="Vidit">
+      <div class="now-img-caption">Vidit Gupta — 2026</div>
     </div>
-
-    <a href="#" class="project-link">View Project →</a>
+  </div>
 </div>
- </section>
 
-   <section id="now" class="now-section">
-    <div class="container">
-        <h2 class="section-title fade-in">Now</h2>
-
-        <div class="now-layout fade-in">
-          
-            <div class="now-photo">
-                <img src="DSC_0958.JPG" alt="Vidit">
-            </div>
-
-           
-            <div class="now-content">
-                <p>Right now, I’m:</p>
-                <ul>
-                    <li>Building projects that prioritize clarity over complexity</li>
-                    <li>Learning how real systems break—and how to design them better</li>
-                    <li>Trying to ship consistently instead of chasing perfection</li>
-                </ul>
-            </div>
+<!-- BLOG -->
+<div class="blog-section" id="blog">
+  <div class="blog-header">
+    <div class="s-label fade-up">05 — Writing</div>
+    <h2 class="s-title fade-up">Thoughts &amp;<br><em>reflections.</em></h2>
+    <p class="blog-intro fade-up">Writing helps me slow down. Honest takes on growth, uncertainty, and what it means to stay human while building things.</p>
+  </div>
+  <div class="blog-list">
+    <div class="blog-row">
+      <div class="blog-idx">I</div>
+      <div class="blog-body">
+        <div class="blog-title">The Quiet Moments That Shape You</div>
+        <p class="blog-excerpt">Most growth doesn't happen when life is loud. It happens in quiet moments — when no one's watching and you choose to keep going anyway.</p>
+        <div class="blog-full-text">
+          <p>I used to think progress had to feel dramatic. Big wins. Clear milestones. Constant validation. But the truth is, the moments that changed me most were silent — late nights thinking, walking alone, sitting with discomfort instead of escaping it.</p>
+          <p>These moments don't look impressive from the outside, but they slowly build resilience. They teach patience, self-trust, and the ability to keep moving without applause.</p>
+          <p>Over time, I realized that who you become in private matters far more than how you appear in public.</p>
         </div>
+        <button class="read-toggle">Read more +</button>
+      </div>
+      <div class="blog-time">4 min</div>
     </div>
-</section>
-
-
-   <section id="blog" class="blog">
-    <div class="container">
-        <h2 class="section-title fade-in">Thoughts & Reflections</h2>
-        <p style="color: var(--text-secondary); max-width: 700px; margin-bottom: 3rem;" class="fade-in">
-            Writing helps me slow down. These are honest reflections on growth, uncertainty, balance, and becoming more human along the way.
-        </p>
-
-        <div class="blog-grid">
-
-            <!-- Blog 1 -->
-            <div class="blog-card fade-in">
-                <div class="blog-meta">
-                    <span class="blog-read-time">4 min read</span>
-                </div>
-                <h3>The Quiet Moments That Shape You</h3>
-
-                <p class="blog-excerpt">
-                    Most growth doesn’t happen when life is loud. It happens in quiet moments—when no one is watching and you choose to keep going anyway.
-                </p>
-
-                <div class="blog-full">
-                    <p>
-                        I used to think progress had to feel dramatic. Big wins. Clear milestones. Constant validation.
-                        But the truth is, the moments that changed me most were silent—late nights thinking, walking alone,
-                        sitting with discomfort instead of escaping it.
-                    </p>
-                    <p>
-                        These moments don’t look impressive from the outside, but they slowly build resilience.
-                        They teach patience, self-trust, and the ability to keep moving without applause.
-                    </p>
-                    <p>
-                        Over time, I realized that who you become in private matters far more than how you appear in public.
-                    </p>
-                </div>
-
-                <a class="read-more">Read more →</a>
-            </div>
-
-            <!-- Blog 2 -->
-            <div class="blog-card fade-in">
-                <div class="blog-meta">
-                    <span class="blog-read-time">5 min read</span>
-                </div>
-                <h3>Being Lost Is Not Falling Behind</h3>
-
-                <p class="blog-excerpt">
-                    Feeling lost used to scare me. Now I see it as a sign that I’m growing out of old versions of myself.
-                </p>
-
-                <div class="blog-full">
-                    <p>
-                        There’s pressure to always know what’s next. A plan. A direction. A purpose you can explain in one sentence.
-                        But some phases of life are meant to be unclear.
-                    </p>
-                    <p>
-                        Being lost often means your old goals no longer fit—but your new ones haven’t revealed themselves yet.
-                        That space feels uncomfortable, but it’s honest.
-                    </p>
-                    <p>
-                        I’ve learned that clarity comes from movement, not certainty. You don’t find yourself by standing still.
-                    </p>
-                </div>
-
-                <a class="read-more">Read more →</a>
-            </div>
-
-            <!-- Blog 3 -->
-            <div class="blog-card fade-in">
-                <div class="blog-meta">
-                    <span class="blog-read-time">4 min read</span>
-                </div>
-                <h3>When Productivity Became My Identity</h3>
-
-                <p class="blog-excerpt">
-                    For a long time, being busy felt like proof that I mattered. Rest felt like something I had to earn.
-                </p>
-
-                <div class="blog-full">
-                    <p>
-                        I measured my worth by output. If I wasn’t productive, I felt behind. If I rested, I felt guilty.
-                        Eventually, everything started to feel heavy—even things I once loved.
-                    </p>
-                    <p>
-                        Burnout doesn’t arrive loudly. It creeps in quietly, disguised as discipline.
-                    </p>
-                    <p>
-                        Learning to rest without guilt was one of the hardest—and most necessary—lessons I’ve learned.
-                    </p>
-                </div>
-
-                <a class="read-more">Read more →</a>
-            </div>
-
-            <!-- Blog 4 -->
-            <div class="blog-card fade-in">
-                <div class="blog-meta">
-                    <span class="blog-read-time">3 min read</span>
-                </div>
-                <h3>Friendships Built Between the Lines</h3>
-
-                <p class="blog-excerpt">
-                    The most meaningful connections in my life weren’t planned. They formed in ordinary, unnoticed moments.
-                </p>
-
-                <div class="blog-full">
-                    <p>
-                        Real friendships didn’t come from networking or convenience. They came from shared silence,
-                        late conversations, mutual exhaustion, and honesty without performance.
-                    </p>
-                    <p>
-                        I’ve learned that presence matters more than perfection. Being there—consistently—is what builds trust.
-                    </p>
-                    <p>
-                        The strongest bonds are often formed when no one is trying to impress anyone.
-                    </p>
-                </div>
-
-                <a class="read-more">Read more →</a>
-            </div>
-
-            <!-- Blog 5 -->
-            <div class="blog-card fade-in">
-                <div class="blog-meta">
-                    <span class="blog-read-time">5 min read</span>
-                </div>
-                <h3>Still Figuring It Out — Honestly</h3>
-
-                <p class="blog-excerpt">
-                    I don’t have everything figured out. And I’ve stopped pretending that I should.
-                </p>
-
-                <div class="blog-full">
-                    <p>
-                        Life doesn’t move in straight lines. It loops, pauses, and changes direction without warning.
-                        Expecting constant clarity only creates pressure.
-                    </p>
-                    <p>
-                        Some days, the best you can do is take the next honest step—even if the full picture isn’t clear yet.
-                    </p>
-                    <p>
-                        If you’re still figuring things out, you’re not behind. You’re human.
-                    </p>
-                </div>
-
-                <a class="read-more">Read more →</a>
-            </div>
-
+    <div class="blog-row">
+      <div class="blog-idx">II</div>
+      <div class="blog-body">
+        <div class="blog-title">Being Lost Is Not Falling Behind</div>
+        <p class="blog-excerpt">Feeling lost used to scare me. Now I see it as a sign I'm growing out of old versions of myself.</p>
+        <div class="blog-full-text">
+          <p>There's pressure to always know what's next. A plan. A direction. A purpose you can explain in one sentence. But some phases of life are meant to be unclear.</p>
+          <p>Being lost often means your old goals no longer fit — but your new ones haven't revealed themselves yet. That space feels uncomfortable, but it's honest.</p>
+          <p>I've learned that clarity comes from movement, not certainty. You don't find yourself by standing still.</p>
         </div>
+        <button class="read-toggle">Read more +</button>
+      </div>
+      <div class="blog-time">5 min</div>
     </div>
-</section>
-
-
-    <section id="skills" class="skills-section">
-        <div class="container">
-            <h2 class="section-title fade-in">Skills & Technologies</h2>
-            <div class="skills-grid">
-                <div class="skill-category fade-in">
-                    <h3>Languages & Frameworks</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">C++</span>
-                        <span class="skill-tag">SQL</span>
-                        <span class="skill-tag">React.js</span>
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">Express.js</span>
-                        <span class="skill-tag">MongoDB</span>
-                    </div>
-                </div>
-
-                <div class="skill-category fade-in">
-                    <h3>Data & Analytics</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">Pandas</span>
-                        <span class="skill-tag">Tableau</span>
-                        <span class="skill-tag">Power BI</span>
-                        <span class="skill-tag">SAP</span>
-                        <span class="skill-tag">ETL Pipelines</span>
-                        <span class="skill-tag">Data Visualization</span>
-                    </div>
-                </div>
-
-                <div class="skill-category fade-in">
-                    <h3>Professional Skills</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">Team Collaboration</span>
-                        <span class="skill-tag">Communication</span>
-                        <span class="skill-tag">Problem-Solving</span>
-                        <span class="skill-tag">Leadership</span>
-                        <span class="skill-tag">Project Management</span>
-                    </div>
-                </div>
-            </div>
+    <div class="blog-row">
+      <div class="blog-idx">III</div>
+      <div class="blog-body">
+        <div class="blog-title">When Productivity Became My Identity</div>
+        <p class="blog-excerpt">For a long time, being busy felt like proof that I mattered. Rest felt like something I had to earn.</p>
+        <div class="blog-full-text">
+          <p>I measured my worth by output. If I wasn't productive, I felt behind. If I rested, I felt guilty. Eventually, everything started to feel heavy — even things I once loved.</p>
+          <p>Burnout doesn't arrive loudly. It creeps in quietly, disguised as discipline.</p>
+          <p>Learning to rest without guilt was one of the hardest — and most necessary — lessons I've learned.</p>
         </div>
-    </section>
-
-    <section id="resume" class="resume-section">
-    <div class="container">
-        <h2 class="section-title fade-in">Resume</h2>
-        <p style="color: var(--text-secondary); max-width: 700px; margin-bottom: 2rem;" class="fade-in">
-            You can download my resume to see my experience, projects, and skills.
-        </p>
-        <a href="ViditGupta25.pdf" download class="btn">
-            Download My Resume →
-        </a>
+        <button class="read-toggle">Read more +</button>
+      </div>
+      <div class="blog-time">4 min</div>
     </div>
-</section>
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="contact-content fade-in">
-                <h2 class="section-title">Let's Connect</h2>
-                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">I'm always open to discussing new opportunities, innovative projects, or simply connecting with fellow tech enthusiasts. Currently seeking Summer 2026 internships!</p>
-                <div class="contact-links">
-                    <a href="mailto:v92gupta@uwaterloo.ca" class="contact-link">Email</a>
-                    <a href="https://linkedin.com/in/viditgupta6" target="_blank" class="contact-link">LinkedIn</a>
-                    <a href="tel:+12268992764" class="contact-link">Phone</a>
-                </div>
-            </div>
+    <div class="blog-row">
+      <div class="blog-idx">IV</div>
+      <div class="blog-body">
+        <div class="blog-title">Friendships Built Between the Lines</div>
+        <p class="blog-excerpt">The most meaningful connections in my life weren't planned. They formed in ordinary, unnoticed moments.</p>
+        <div class="blog-full-text">
+          <p>Real friendships didn't come from networking or convenience. They came from shared silence, late conversations, mutual exhaustion, and honesty without performance.</p>
+          <p>I've learned that presence matters more than perfection. Being there — consistently — is what builds trust.</p>
+          <p>The strongest bonds form when no one is trying to impress anyone.</p>
         </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Vidit Gupta. Built with passion and code.</p>
+        <button class="read-toggle">Read more +</button>
+      </div>
+      <div class="blog-time">3 min</div>
+    </div>
+    <div class="blog-row">
+      <div class="blog-idx">V</div>
+      <div class="blog-body">
+        <div class="blog-title">Still Figuring It Out — Honestly</div>
+        <p class="blog-excerpt">I don't have everything figured out. And I've stopped pretending that I should.</p>
+        <div class="blog-full-text">
+          <p>Life doesn't move in straight lines. It loops, pauses, and changes direction without warning. Expecting constant clarity only creates pressure.</p>
+          <p>Some days, the best you can do is take the next honest step — even if the full picture isn't clear yet.</p>
+          <p>If you're still figuring things out, you're not behind. You're human.</p>
         </div>
-    </footer>
+        <button class="read-toggle">Read more +</button>
+      </div>
+      <div class="blog-time">5 min</div>
+    </div>
+  </div>
+</div>
 
-    <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.querySelector('.theme-icon');
-        const html = document.documentElement;
+<!-- SKILLS -->
+<div class="skills-section" id="skills">
+  <div class="section-inner">
+    <div class="s-label fade-up">06 — Skills</div>
+    <h2 class="s-title fade-up" style="margin-bottom:0">Technologies &amp; <em>tools.</em></h2>
+    <div class="skills-grid">
+      <div class="skill-col">
+        <h3>Languages & Frameworks</h3>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span><span class="skill-pill">C++</span><span class="skill-pill">SQL</span><span class="skill-pill">React.js</span><span class="skill-pill">Node.js</span><span class="skill-pill">Express.js</span><span class="skill-pill">MongoDB</span>
+        </div>
+      </div>
+      <div class="skill-col">
+        <h3>Data & Analytics</h3>
+        <div class="skill-pills">
+          <span class="skill-pill">Pandas</span><span class="skill-pill">Tableau</span><span class="skill-pill">Power BI</span><span class="skill-pill">SAP</span><span class="skill-pill">ETL Pipelines</span><span class="skill-pill">Data Visualization</span>
+        </div>
+      </div>
+      <div class="skill-col">
+        <h3>Professional</h3>
+        <div class="skill-pills">
+          <span class="skill-pill">Team Collaboration</span><span class="skill-pill">Communication</span><span class="skill-pill">Problem-Solving</span><span class="skill-pill">Leadership</span><span class="skill-pill">Project Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        // Check for saved theme preference or default to 'dark'
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        html.setAttribute('data-theme', currentTheme);
-        updateThemeIcon(currentTheme);
+<!-- RESUME -->
+<div class="resume-section" id="resume">
+  <div class="resume-left fade-up">
+    <h2>My Resume</h2>
+    <p>Full experience, projects, and skills — one document.</p>
+  </div>
+  <a href="ViditGupta25.pdf" download class="btn-ink fade-up">Download PDF →</a>
+</div>
 
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="contact-eyebrow fade-up">07 — Contact</div>
+  <h2 class="contact-heading fade-up">Let's work<br><em>together.</em></h2>
+  <p class="contact-sub fade-up">Open to internship opportunities, interesting projects, and good conversations. Seeking Summer 2026 roles.</p>
+  <div class="contact-links fade-up">
+    <a href="mailto:v92gupta@uwaterloo.ca" class="c-link">Email</a>
+    <a href="https://linkedin.com/in/viditgupta6" target="_blank" class="c-link">LinkedIn</a>
+    <a href="tel:+12268992764" class="c-link">Phone</a>
+  </div>
+</div>
 
-        function updateThemeIcon(theme) {
-            themeIcon.textContent = theme === 'dark' ? '☀' : '☾';
-        }
+<footer>
+  <p>© 2026 Vidit Gupta. All rights reserved.</p>
+  <p>University of Waterloo · CS · Waterloo, Ontario</p>
+</footer>
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+<script>
+const themeBtn = document.getElementById('themeBtn');
+const body = document.body;
+if (localStorage.getItem('dark') === '1') body.setAttribute('data-dark', '');
 
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Enhanced navbar background on scroll
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > 100) {
-                nav.style.background = 'rgba(10, 10, 10, 0.95)';
-                nav.style.borderBottom = '1px solid rgba(0, 255, 136, 0.3)';
-            } else {
-                nav.style.background = 'rgba(10, 10, 10, 0.8)';
-                nav.style.borderBottom = '1px solid rgba(0, 255, 136, 0.1)';
-            }
-            
-            lastScroll = currentScroll;
-        });
-
-        // Cursor trail effect
-        let cursorTrail = [];
-        const trailLength = 20;
-
-        document.addEventListener('mousemove', (e) => {
-            cursorTrail.push({x: e.clientX, y: e.clientY});
-            if (cursorTrail.length > trailLength) {
-                cursorTrail.shift();
-            }
-        });
-       
-document.querySelectorAll('.read-more').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const full = btn.previousElementSibling;
-        const expanded = full.style.display === 'block';
-
-        full.style.display = expanded ? 'none' : 'block';
-        btn.textContent = expanded ? 'Read more →' : 'Read less ←';
-    });
+themeBtn.addEventListener('click', () => {
+  if (body.hasAttribute('data-dark')) {
+    body.removeAttribute('data-dark');
+    localStorage.setItem('dark', '0');
+  } else {
+    body.setAttribute('data-dark', '');
+    localStorage.setItem('dark', '1');
+  }
 });
 
-    </script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.exp-item, .proj-card, .blog-row, .skill-col, .fade-up, .now-list li').forEach(el => io.observe(el));
+
+document.querySelectorAll('.read-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const full = btn.previousElementSibling;
+    const open = full.style.display === 'block';
+    full.style.display = open ? 'none' : 'block';
+    btn.textContent = open ? 'Read more +' : 'Read less −';
+  });
+});
+</script>
 </body>
 </html>
