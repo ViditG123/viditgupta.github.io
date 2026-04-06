@@ -712,6 +712,42 @@ body {
 
 .c-link:hover { color: var(--paper); border-color: var(--rust); background: var(--rust); }
 
+  .webring {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.webring:hover {
+  opacity: 1;
+}
+
+.webring a {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.webring a:hover {
+  color: var(--ink);
+}
+
+.webring img {
+  width: 18px;
+  height: auto;
+  filter: grayscale(100%);
+  transition: transform 0.2s;
+}
+
+.webring img:hover {
+  transform: scale(1.1);
+}
+
 /* ── FOOTER ── */
 footer {
   border-top: 1px solid var(--border);
@@ -1082,8 +1118,23 @@ footer p {
 </div>
 
 <footer>
-  <p>© 2026 Vidit Gupta. All rights reserved.</p>
-  <p>University of Waterloo · CS · Waterloo, Ontario</p>
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.75rem; width:100%;">
+    
+    <p>© 2026 Vidit Gupta. All rights reserved.</p>
+
+    <div class="webring">
+      <a href="https://cs.uwatering.com/#viditgupta.com?nav=prev">←</a>
+      
+      <a href="https://cs.uwatering.com/#viditgupta.com" target="_blank">
+        <img id="webringIcon" src="https://cs.uwatering.com/icon.black.svg" alt="CS Webring"/>
+      </a>
+      
+      <a href="https://cs.uwatering.com/#viditgupta.com?nav=next">→</a>
+    </div>
+
+    <p>University of Waterloo · CS · Waterloo, Ontario</p>
+  
+  </div>
 </footer>
 
 <script>
@@ -1121,6 +1172,23 @@ document.querySelectorAll('.read-toggle').forEach(btn => {
     full.style.display = open ? 'none' : 'block';
     btn.textContent = open ? 'Read more +' : 'Read less −';
   });
+  const webringIcon = document.getElementById('webringIcon');
+
+function updateWebringIcon() {
+  if (!webringIcon) return;
+  if (document.body.hasAttribute('data-dark')) {
+    webringIcon.src = "https://cs.uwatering.com/icon.white.svg";
+  } else {
+    webringIcon.src = "https://cs.uwatering.com/icon.black.svg";
+  }
+}
+
+updateWebringIcon();
+
+// hook into your existing theme toggle
+themeBtn.addEventListener('click', () => {
+  setTimeout(updateWebringIcon, 0);
+});
 });
 </script>
 </body>
