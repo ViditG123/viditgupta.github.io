@@ -29,8 +29,8 @@
   --paper: #141210;
   --cream: #1e1c18;
   --warm: #2a2720;
-  --rust: #d4673a;
-  --rust-light: #3d2418;
+  --rust: #d467a;
+  --rust-light: #d2418;
   --muted: #8a8070;
   --border: #2e2b24;
 }
@@ -43,11 +43,11 @@ body {
   color: var(--ink);
   font-size: 15px;
   line-height: 1.6;
-  transition: background .3s, color .3s;
+  transition: background .s, color .s;
   overflow-x: hidden;
 }
 
-::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar { width: px; }
 ::-webkit-scrollbar-track { background: var(--cream); }
 ::-webkit-scrollbar-thumb { background: var(--border); }
 
@@ -55,11 +55,11 @@ body {
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 99;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 3rem;
+  padding: 0 rem;
   height: 56px;
   background: var(--paper);
   border-bottom: 1px solid var(--border);
-  transition: background .3s;
+  transition: background .s;
 }
 
 .nav-logo {
@@ -103,7 +103,7 @@ body {
 .status-pill {
   display: flex; align-items: center; gap: .5rem;
   background: var(--rust-light);
-  padding: .3rem .8rem;
+  padding: .rem .8rem;
   border-radius: 2px;
 }
 
@@ -121,13 +121,13 @@ body {
   animation: blink 2s ease-in-out infinite;
 }
 
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.} }
 
 .toggle-btn {
   background: none;
   border: 1px solid var(--border);
   color: var(--muted);
-  width: 32px; height: 32px;
+  width: 2px; height: 2px;
   border-radius: 2px;
   cursor: pointer;
   font-size: .85rem;
@@ -146,7 +146,7 @@ body {
 }
 
 .hero-left {
-  padding: 7rem 3rem 5rem;
+  padding: 7rem rem 5rem;
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -172,10 +172,10 @@ body {
 
 .hero-name {
   font-family: var(--serif);
-  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  font-size: clamp(.5rem, 7vw, 6.5rem);
   font-weight: 900;
   line-height: .95;
-  letter-spacing: -.03em;
+  letter-spacing: -.0em;
   color: var(--ink);
   margin-bottom: 2.5rem;
 }
@@ -859,7 +859,7 @@ footer p {
     </div>
     <div class="hero-stats-block">
       <div class="hero-stat">
-        <span class="hero-stat-n">3</span>
+        <span class="hero-stat-n">4</span>
         <span class="hero-stat-l">Internships</span>
       </div>
       <div class="hero-stat">
